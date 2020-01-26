@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Navigation from './components/Navigation/Navigation';
 import SignIn from './components/SignIn/SignIn';
+import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -79,20 +80,28 @@ class App extends Component {
       <div className="App">
         <Particles className='particles' params={ particleOptions } />
         <Navigation onRouteChange={this.onRouteChange} />
-        { this.state.route === 'signin' 
-            ? <SignIn onRouteChange={this.onRouteChange} />
-            : <div>
-              <Logo />
-              <Rank />
-              <ImageLinkForm 
-                onInputChange={this.onInputChange} 
-                onButtonSubmit={this.onButtonSubmit} 
-              />
-              <FaceRecognition 
-                box={this.state.box}
-                imageUrl={this.state.imageUrl} 
-              />
-            </div> 
+        { this.state.route === 'home' 
+            ? 
+              <div>
+                <Logo />
+                <Rank />
+                <ImageLinkForm 
+                  onInputChange={this.onInputChange} 
+                  onButtonSubmit={this.onButtonSubmit} 
+                />
+                <FaceRecognition 
+                  box={this.state.box}
+                  imageUrl={this.state.imageUrl} 
+                />
+              </div> 
+            : 
+              (
+                this.state.route === 'signin' 
+                ?
+                  <SignIn onRouteChange={this.onRouteChange} />             
+                  :
+                  <Register onRouteChange={this.onRouteChange} />                             
+              )
         }
       </div>
     );
