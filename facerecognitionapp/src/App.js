@@ -53,7 +53,6 @@ class App extends Component {
   }
 
   displayFaceBox = (BoxFromCalculateFaceLocation) => {
-    console.log(BoxFromCalculateFaceLocation);
     this.setState({box: BoxFromCalculateFaceLocation})
   }
 
@@ -82,10 +81,11 @@ class App extends Component {
   }
 
   render() {
+    const { isSignedIn, box, imageUrl, route } = this.state;
     return (
       <div className="App">
         <Particles className='particles' params={ particleOptions } />
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
         { this.state.route === 'home' 
             ? 
               <div>
@@ -96,13 +96,13 @@ class App extends Component {
                   onButtonSubmit={this.onButtonSubmit} 
                 />
                 <FaceRecognition 
-                  box={this.state.box}
-                  imageUrl={this.state.imageUrl} 
+                  box={box}
+                  imageUrl={imageUrl} 
                 />
               </div> 
             : 
               (
-                this.state.route === 'signin' 
+                route === 'signin' 
                 ?
                   <SignIn onRouteChange={this.onRouteChange} />             
                   :
