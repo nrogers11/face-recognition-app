@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -10,7 +11,6 @@ const dataBase = {
       id: '123',
       name: 'John',
       email: 'john@gmail.com',
-      password: 'hamburguer',
       entries: 0,
       joined: new Date(),
     },
@@ -18,9 +18,15 @@ const dataBase = {
       id: '321',
       name: 'Joca',
       email: 'joca@gmail.com',
-      password: 'batata',
       entries: 0,
       joined: new Date(),
+    }
+  ],
+  login: [
+    {
+      id: '987',
+      hash: '',
+      email: 'john@gmail.com'
     }
   ]
 }
@@ -30,6 +36,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
+  bcrypt.compare("songoku", '$2a$10$RYtAPMkDbJmIiCX2Wew37.nz1.L.Zukd/Nsu1xduMFYpXA4D1LWa.', function(err, res) {
+    console.log("first guess", res)
+  });
+  bcrypt.compare("veggies", '$2a$10$RYtAPMkDbJmIiCX2Wew37.nz1.L.Zukd/Nsu1xduMFYpXA4D1LWa.', function(err, res) {
+    console.log("second guess", res)
+  });
   if (req.body.email === dataBase.users[0].email && req.body.password === dataBase.users[0].password) {
     res.json("entrou");
   } else {
@@ -38,8 +50,10 @@ app.post('/signin', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
+  // bcrypt.hash("hamburguer", null, null, function(err, hash) {
+  //   console.log(hash);
+  // });
   const { email, password, name} = req.body;
-
   dataBase.users.push(
     {
       id: '125',
@@ -85,12 +99,3 @@ app.put('/image', (req, res) => {
 app.listen(3000, () => {
   console.log("working on port 3000!");
 })
-
-/*
-/                 --> res = this is working
-/signiin          --> POST = success / fail
-/register         --> POST = user (object)
-/profile/:userId  --> GET = user
-/image            --> PUT --> user (updated or something)
-
-*/
