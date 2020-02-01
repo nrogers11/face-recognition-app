@@ -1,15 +1,18 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 const dataBase = {
   users: [
     {
       id: '123',
       name: 'John',
+      password: 'cookies',
       email: 'john@gmail.com',
       entries: 0,
       joined: new Date(),
@@ -17,6 +20,7 @@ const dataBase = {
     {
       id: '321',
       name: 'Joca',
+      password: 'bananas',
       email: 'joca@gmail.com',
       entries: 0,
       joined: new Date(),
@@ -43,7 +47,7 @@ app.post('/signin', (req, res) => {
     console.log("second guess", res)
   });
   if (req.body.email === dataBase.users[0].email && req.body.password === dataBase.users[0].password) {
-    res.json("entrou");
+    res.json("success");
   } else {
     res.status(400).json("error logging in");
   }
