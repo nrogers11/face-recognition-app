@@ -1,6 +1,21 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
+const knex = require('knex');
+
+const postgres = knex ({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'beni',
+    password : '',
+    database : 'smartbrain'
+  }
+});
+
+postgres.select('*').from('users').then(data => {
+  console.log(data);
+});
 
 const app = express();
 
@@ -99,6 +114,6 @@ app.put('/image', (req, res) => {
   }
 })
 
-app.listen(3000, () => {
-  console.log("working on port 3000!");
+app.listen(3001, () => {
+  console.log("working on port 3001!");
 })
