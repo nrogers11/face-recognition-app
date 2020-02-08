@@ -13,9 +13,9 @@ const db = knex ({
   }
 });
 
-db.select('*').from('users').then(data => {
-  console.log(data);
-});
+// db.select('*').from('users').then(data => {
+//   console.log(data);
+// });
 
 const app = express();
 
@@ -85,16 +85,15 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req, res) => {
   const { id } = req.params;
-  let found = false;
-  dataBase.users.forEach(user => {
-    if (user.id === id) {
-      found = true;
-      return res.json(user);
-    }  
-  })
-  if(!found){
-    res.status(400).json("not found");
-  }
+  db.select('*').from('users').where({id})
+    .then(user => {
+      if (user.length){
+        res.json(user[0])
+      } else {
+        res.status(400).json('Not found!')
+      }
+    })
+    .catch(error => res.status(400).json('Error getting user!'));
 })
 
 app.put('/image', (req, res) => {
